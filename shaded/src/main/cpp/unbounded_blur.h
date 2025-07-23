@@ -1,33 +1,34 @@
-#ifndef UNBOUNDED_BLUR_RENDERER_H
-#define UNBOUNDED_BLUR_RENDERER_H
+#ifndef UNBOUNDED_BLUR_H
+#define UNBOUNDED_BLUR_H
 
 #include <GLES2/gl2.h>
 #include "egl_helper.h"
+// Include your EGL helper header
+// #include "egl_helper.h"
 
 class UnboundedBlurRenderer {
 public:
-    explicit UnboundedBlurRenderer(int maxWidth, int maxHeight);
+    UnboundedBlurRenderer(int maxWidth, int maxHeight);
+    ~UnboundedBlurRenderer() = default;
 
+    void initialize();
     GLuint uploadBitmapAsTexture(unsigned char* pixels, int width, int height);
-
-    void render(GLuint textureId, int inputWidth, int inputHeight, float radius, 
-                int& outputWidth, int& outputHeight);
-
+    void render(GLuint textureId, int inputWidth, int inputHeight,
+                float radius, int& outputWidth, int& outputHeight);
     void readFBO(unsigned char* pixels, int width, int height);
 
+    static int calculateOutputSize(int inputSize, float radius);
+
 private:
-    void initialize();
-    void compileShaders();
-    GLuint compileShader(GLenum type, const char* source);
-    void setupFullscreenQuad();
-    void setupFramebuffer();
-    void resizeFramebuffer(int width, int height);
-    int calculateOutputSize(int inputSize, float radius);
+    // EGL and OpenGL setup
+    // EGLHelper eglHelper_;  // Replace with your actual EGL helper class
 
-    EGLHelper eglHelper_;
-
+    // OpenGL resources
     GLuint quadVBO_;
-    GLuint shaderProgram_;
+    GLuint horizontalShaderProgram_;
+    GLuint verticalShaderProgram_;
+
+    // Shader attributes and uniforms
     GLint attrPos_;
     GLint attrTexCoord_;
     GLint uniformTexture_;
@@ -36,12 +37,36 @@ private:
     GLint uniformInputSize_;
     GLint uniformOutputSize_;
 
-    GLuint framebuffer_;
-    GLuint fboTexture_;
+    EGLHelper eglHelper_;  // Offscreen EGL context manager
+
+
+    // Framebuffers for two-pass rendering
+    GLuint framebuffer1_;  // For horizontal pass output
+    GLuint framebuffer2_;  // For vertical pass output
+    GLuint fboTexture1_;   // Intermediate texture
+    GLuint fboTexture2_;   // Final output texture
+
+    // Current framebuffer dimensions
     int currentFBOWidth_;
     int currentFBOHeight_;
 
     bool initialized_;
+
+    // Helper methods
+    void setupFullscreenQuad();
+    void setupFramebuffers();
+    void resizeFramebuffers(int width, int height);
+    void compileShaders();
+    GLuint compileShader(GLenum type, const char* source);
+
+    // Rendering passes
+    void renderHorizontalPass(GLuint textureId, int inputWidth, int inputHeight,
+                              int outputWidth, int outputHeight, float radius);
+    void renderVerticalPass(int inputWidth, int inputHeight,
+                            int outputWidth, int outputHeight, float radius);
+    void renderDirect(GLuint textureId, int inputWidth, int inputHeight,
+                      int outputWidth, int outputHeight);
+    void drawQuad(GLuint shaderProgram);
 };
 
-#endif // UNBOUNDED_BLUR_RENDERER_H
+#endif // UNBOUNDED_BLUR_H

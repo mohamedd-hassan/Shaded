@@ -40,8 +40,8 @@ import io.sifr.shaded.modifiers.blur
 
 @Composable
 fun CustomBlurComparisonTest() {
-    var blurRadius by remember { mutableFloatStateOf(25f) }
-    var edgeTreatment by remember { mutableStateOf(BlurEdgeTreatment.UNBOUNDED) }
+    var blurRadius by remember { mutableFloatStateOf(0f) }
+    var edgeTreatment by remember { mutableStateOf(BlurEdgeTreatment.RECTANGLE) }
 
     Column(
         modifier = Modifier

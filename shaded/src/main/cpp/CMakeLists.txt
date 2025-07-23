@@ -10,6 +10,7 @@ add_library(
         blur_renderer
         SHARED
         blur_renderer.cpp
+        renderer.cpp
         egl_helper.cpp
         egl_helper.h
         unbounded_blur.cpp
