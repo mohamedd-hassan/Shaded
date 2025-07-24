@@ -10,7 +10,7 @@ internal object BlurNative: BlurProcessor {
     private external fun blurBitmap(bitmap: Bitmap, radius: Float): Bitmap
     private external fun blurBitmapUnbounded(bitmap: Bitmap, radius: Float): Bitmap
 
-    override fun gaussianBlur(inputBitmap: Bitmap, radius: Float, blurEdgeTreatment: BlurEdgeTreatment): Bitmap {
+    override fun blurBitmap(inputBitmap: Bitmap, radius: Float, blurEdgeTreatment: BlurEdgeTreatment): Bitmap {
         return when (blurEdgeTreatment) {
             BlurEdgeTreatment.RECTANGLE -> blurBitmap(inputBitmap, radius)
             BlurEdgeTreatment.UNBOUNDED -> blurBitmapUnbounded(inputBitmap, radius)

@@ -2,6 +2,7 @@ package io.sifr.shaded.modifiers
 
 import android.graphics.Picture
 import android.os.Build
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -44,7 +45,7 @@ fun Modifier.blur(
                         val originalBitmap = recordComposable(picture, this@drawWithCache)
 
                         val blurredBitmap =
-                            BlurNative.gaussianBlur(originalBitmap, radius * 4f, edgeTreatment)
+                            BlurNative.blurBitmap(originalBitmap, radius * 4f, edgeTreatment)
 
                         drawIntoCanvas { canvas ->
                             when (edgeTreatment) {
