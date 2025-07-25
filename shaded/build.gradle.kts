@@ -16,7 +16,14 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         ndk {
+            ndkVersion = "29.0.13599879"
             abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64"))
+        }
+
+        externalNativeBuild {
+            cmake {
+                arguments += listOf("-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
+            }
         }
     }
 
