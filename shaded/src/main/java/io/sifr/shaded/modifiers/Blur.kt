@@ -74,10 +74,10 @@ fun Modifier.blur(
                             }
                         }
 
-                        if (blurredBitmap != originalBitmap) {
-                            blurredBitmap.recycle()
-                        }
-                        originalBitmap.recycle()
+//                        if (blurredBitmap != originalBitmap) {
+//                            blurredBitmap.recycle()
+//                        }
+//                        originalBitmap.recycle()
                     }
                 }
             }
