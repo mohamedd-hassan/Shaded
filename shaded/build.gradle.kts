@@ -74,7 +74,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.sifr"
             artifactId = "shaded"
-            version = "0.2.1-alpha"
+            version = "0.2.2-alpha"
 
             afterEvaluate {
                 from(components["release"])
