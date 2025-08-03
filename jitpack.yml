@@ -1,8 +1,12 @@
 jdk:
   - openjdk11
+env:
+  ANDROID_HOME: /opt/android-sdk-linux
+
 before_install:
-  - ./scripts/prepareJitpackEnvironment.sh
-install:
-  - echo y | android update sdk -u -a -t tools
-  - echo y | android update sdk -u -a -t platform-tools
-  - echo y | sdkmanager --licenses
+  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+  - unzip -q android-sdk.zip -d android-sdk-tools
+  - mkdir -p $ANDROID_HOME/cmdline-tools
+  - mv android-sdk-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+  - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+  - yes | sdkmanager --licenses
