@@ -33,7 +33,7 @@ Add the dependency to your **module** `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("com.github.mohamedd-hassan:Shaded:0.2.3-alpha")
+    implementation("com.github.mohamedd-hassan:Shaded:0.2.31-alpha")
 }
 ```
 
@@ -47,7 +47,7 @@ Add the dependency to your `libs.versions.toml`:
 
 ```toml
 [versions]
-shaded = "0.2.3-alpha"
+shaded = "0.2.31-alpha"
 
 [libraries]
 sifr-shaded = { module = "com.github.mohamedd-hassan:Shaded", version.ref = "shaded" }
