@@ -6,8 +6,10 @@ Shaded is a jetpack compose library for Android allowing blurring on lower Andro
 
 ## Screenshots
 
-<img width="357" height="720" alt="Unbounded Blur Comparison" src="https://github.com/user-attachments/assets/864e02f6-a22b-4e33-8e1b-a4dc4a5ef5d7" />
-<img width="355" height="720" alt="Bounded Blur Comparison" src="https://github.com/user-attachments/assets/b1596273-588c-4aaa-9de7-5dc3779ba58e" />
+
+<img width="355" height="720" alt="Bounded Blur Comparison" src="https://github.com/user-attachments/assets/99c84982-b6f6-4d6c-8ec7-47f139a45ef7" />
+<img width="355" height="720" alt="Unbounded Blur Comparison" src="https://github.com/user-attachments/assets/41b3b12b-f60f-496b-be7b-47b07ce08df2" />
+
 
 # Installation
 
