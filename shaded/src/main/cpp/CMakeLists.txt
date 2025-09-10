@@ -10,12 +10,15 @@ add_library(
         blur_renderer
         SHARED
         blur_renderer.cpp
-        renderer.cpp
         egl_helper.cpp
         egl_helper.h
         unbounded_blur.cpp
         unbounded_blur.h
         native-lib.cpp
+        core/VertexBuffer.h
+        core/VertexBuffer.cpp
+        core/Renderer.cpp
+        core/Renderer.h
 )
 
 find_library(log-lib log)

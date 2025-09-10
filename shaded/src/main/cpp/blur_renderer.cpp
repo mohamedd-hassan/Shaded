@@ -1,4 +1,7 @@
 #include "blur_renderer.h"
+#include "core/VertexBuffer.h"
+#include "core/IndexBuffer.h"
+
 
 BlurRenderer::BlurRenderer(int width, int height)
         : eglHelper_(width, height),
@@ -43,18 +46,15 @@ void BlurRenderer::render(GLuint textureId, int width, int height, float radius)
     eglHelper_.makeCurrent();
 
     if (radius <= 0.5f) {
-        // No blur needed, just render directly
+
         renderDirect(textureId, width, height);
         return;
     }
 
-    // Resize framebuffer textures if needed
     resizeFramebuffers(width, height);
 
-    // First pass: Horizontal blur
     renderHorizontalPass(textureId, width, height, radius);
 
-    // Second pass: Vertical blur
     renderVerticalPass(width, height, radius);
 }
 
@@ -63,12 +63,11 @@ void BlurRenderer::renderHorizontalPass(GLuint textureId, int width, int height,
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer1_);
     glViewport(0, 0, width, height);
 
-    // Set uniforms
     glUniform1f(glGetUniformLocation(horizontalShaderProgram_, "uRadius"), radius);
     glUniform2f(glGetUniformLocation(horizontalShaderProgram_, "uTextureSize"),
                 static_cast<float>(width), static_cast<float>(height));
 
-    // Bind input texture
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glUniform1i(glGetUniformLocation(horizontalShaderProgram_, "uTexture"), 0);
@@ -142,10 +141,8 @@ void BlurRenderer::setupFullscreenQuad() {
             1.0f, -1.0f,   1.0f, 0.0f,
     };
 
-    glGenBuffers(1, &quadVBO_);
-    glBindBuffer(GL_ARRAY_BUFFER, quadVBO_);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    VertexBuffer vb(quadVertices, sizeof(quadVertices));
+    vb.Unbind();
 }
 
 void BlurRenderer::setupFramebuffers() {

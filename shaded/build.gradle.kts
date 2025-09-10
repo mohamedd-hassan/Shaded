@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.coil.compose)
 }
 
 

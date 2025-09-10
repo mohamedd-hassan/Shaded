@@ -33,8 +33,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import io.sifr.samples.R
 import io.sifr.shaded.blurProcessor.BlurEdgeTreatment
 import io.sifr.shaded.modifiers.blur
 
@@ -42,7 +46,7 @@ import io.sifr.shaded.modifiers.blur
 fun CustomBlurComparisonTest() {
     var blurRadius by remember { mutableFloatStateOf(0f) }
     var edgeTreatment by remember { mutableStateOf(BlurEdgeTreatment.RECTANGLE) }
-
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,6 +56,21 @@ fun CustomBlurComparisonTest() {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context)
+                .allowHardware(false)
+                .data("https://image.tmdb.org/t/p/w500/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg")
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground)
+                .build()
+            ,
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth().blur(
+                5f,
+                BlurEdgeTreatment.UNBOUNDED
+            )
+        )
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -92,7 +111,6 @@ fun CustomBlurComparisonTest() {
             }
         }
 
-        // Test content for blurring
         @Composable
         fun TestContent(
             modifier: Modifier
@@ -121,7 +139,6 @@ fun CustomBlurComparisonTest() {
             }
         }
 
-        // Native blur comparison (API 31+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             Text(
                 text = "Native Blur (API 31+)",
@@ -152,7 +169,6 @@ fun CustomBlurComparisonTest() {
             }
         }
 
-        // Your custom blur
         Text(
             text = "Custom OpenGL Blur",
             style = MaterialTheme.typography.headlineSmall,
@@ -181,7 +197,6 @@ fun CustomBlurComparisonTest() {
             }
         }
 
-        // Additional test - Text with different backgrounds
         Text(
             text = "Text Blur Test",
             style = MaterialTheme.typography.headlineSmall
@@ -191,7 +206,6 @@ fun CustomBlurComparisonTest() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Native (if available)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 Column(
                     modifier = Modifier.weight(1f),
@@ -219,7 +233,6 @@ fun CustomBlurComparisonTest() {
                 }
             }
 
-            // Custom
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -286,7 +299,6 @@ fun CustomBlurComparisonTest() {
                     .background(Color.Yellow, CircleShape)
             )
 
-            // Blurred center element
             Box(
                 modifier = Modifier
                     .size(100.dp)

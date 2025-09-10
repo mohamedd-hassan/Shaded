@@ -3,8 +3,6 @@
 
 #include <GLES2/gl2.h>
 #include "egl_helper.h"
-// Include your EGL helper header
-// #include "egl_helper.h"
 
 class BlurRenderer {
 public:
