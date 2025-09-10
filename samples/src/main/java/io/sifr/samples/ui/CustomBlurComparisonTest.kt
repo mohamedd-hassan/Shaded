@@ -31,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -46,7 +48,7 @@ import io.sifr.shaded.modifiers.blur
 fun CustomBlurComparisonTest() {
     var blurRadius by remember { mutableFloatStateOf(0f) }
     var edgeTreatment by remember { mutableStateOf(BlurEdgeTreatment.RECTANGLE) }
-    val context = LocalContext.current
+    val nativeEdgeTreatment = if (edgeTreatment == BlurEdgeTreatment.RECTANGLE) BlurredEdgeTreatment.Rectangle else BlurredEdgeTreatment.Unbounded
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,21 +58,6 @@ fun CustomBlurComparisonTest() {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context)
-                .allowHardware(false)
-                .data("https://image.tmdb.org/t/p/w500/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg")
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground)
-                .build()
-            ,
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth().blur(
-                5f,
-                BlurEdgeTreatment.UNBOUNDED
-            )
-        )
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -163,14 +150,14 @@ fun CustomBlurComparisonTest() {
                             .background(Color.Red.copy(alpha = 0.3f))
                     )
                     TestContent(
-                        modifier = Modifier.blur(blurRadius, edgeTreatment)
+                        modifier = Modifier.blur(blurRadius.dp, nativeEdgeTreatment)
                     )
                 }
             }
         }
 
         Text(
-            text = "Custom OpenGL Blur",
+            text = "Shaded Blur",
             style = MaterialTheme.typography.headlineSmall,
             color = Color.Blue
         )
@@ -227,7 +214,7 @@ fun CustomBlurComparisonTest() {
                             color = Color.White,
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.blur(blurRadius, edgeTreatment)
+                            modifier = Modifier.blur(blurRadius.dp, nativeEdgeTreatment)
                         )
                     }
                 }
